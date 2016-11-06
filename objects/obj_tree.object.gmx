@@ -27,13 +27,13 @@
             <kind>1</kind>
             <string>image_speed=0;
 
-skeleton_attachment_create("Tree1", spr_Tree1, 0, 0, 0, 1, 1, 0);
+//skeleton_attachment_create("Tree1", spr_Tree1, 0, 0, 0, 1, 1, 0);
 
-skeleton_attachment_set("sl_tl", "Tree1");
-skeleton_attachment_set("sl_tr", "Tree1");
-skeleton_attachment_set("sl_bl", "Tree1");
-skeleton_attachment_set("sl_br", "Tree1");
-skeleton_attachment_set("sl_m", "Tree1");
+//skeleton_attachment_set("sl_tl", "Tree1");
+//skeleton_attachment_set("sl_tr", "Tree1");
+//skeleton_attachment_set("sl_bl", "Tree1");
+//skeleton_attachment_set("sl_br", "Tree1");
+//skeleton_attachment_set("sl_m", "Tree1");
 
 skeleton_animation_set("animation");
 
