@@ -4,15 +4,14 @@
 friction = 0.0;
 
 //Move towards target if it exists
-if ( path_exists( target ) ) {
-        path_start(target, 0, path_action_stop, 0);    
-    //motion_add( point_direction(x, y, target.x, target.y), acc );
+if ( target != noone && instance_exists( target ) ) {    
+    motion_add( point_direction(x, y, target.x, target.y), 0.5 );
     // Interact with target When reached
-    //if ( position_meeting(x, y, target) ) {
-    //    state = 'idle'
-    //}
+    if ( position_meeting(x, y, target) ) {
+        state = 'idle'
+    }
 } else {
-    path_delete(target); 
+    target = noone;
     state = 'idle'
 }
 

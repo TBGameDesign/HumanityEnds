@@ -184,7 +184,7 @@ if ( state == 'move' ) {
     scr_peep_move();
 }
 
-if ( !path_exists( target ) || state == 'idle' ) {
+if ( !instance_exists( target ) || state == 'idle' ) {
     scr_peep_idle();
 }
 </string>
@@ -210,18 +210,19 @@ if ( !path_exists( target ) || state == 'idle' ) {
           <argument>
             <kind>1</kind>
             <string>/// Collide away
-
+friction=0;
 motion_add(point_direction(other.x, other.y, x, y), 0.25);
 if (speed &gt; spd) {
     speed = spd;
 }
 
+
 //Check for overlapping
 if ( x == other.x &amp;&amp; y == other.y ) {
     if ( id &gt; other.id ) {
-        x+=1;
+        x+=2;
     } else {
-        x-=1;
+        x-=2;
     }
 }
 </string>
@@ -291,7 +292,6 @@ if ( instance_exists( target ) ) {
     }
     
 }
-
 
 draw_self();
 draw_sprite_ext(spr_Claws, 0, x, y, 1, 1, image_angle, c_white, 1);
