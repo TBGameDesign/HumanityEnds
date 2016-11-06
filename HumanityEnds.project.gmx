@@ -13,8 +13,12 @@
     <sprite>sprites\spr_selected</sprite>
     <sprite>sprites\spr_moveTarget</sprite>
     <sprite>sprites\spr_Mouse</sprite>
-    <sprite>sprites\spr_Resource</sprite>
-    <sprite>sprites\spr_Tree1</sprite>
+    <sprites name="World">
+      <sprites name="Flora">
+        <sprite>sprites\spr_Tree1</sprite>
+        <sprite>sprites\spr_Resource</sprite>
+      </sprites>
+    </sprites>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -36,6 +40,7 @@
       <objects name="WorldObjects">
         <object>objects\obj_tree</object>
       </objects>
+      <object>objects\obj_Grid</object>
     </objects>
     <objects name="Peeps">
       <object>objects\obj_peep</object>
