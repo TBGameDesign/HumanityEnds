@@ -1,0 +1,13 @@
+
+spr_Resource.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+tree_38
+  rotate: false
+  xy: 2, 2
+  size: 109, 114
+  orig: 110, 120
+  offset: 0, 3
+  index: -1
