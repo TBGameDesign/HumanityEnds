@@ -194,17 +194,22 @@ if ( !over_gui &amp;&amp; !over_peep &amp;&amp; !over_npc ) {
     with ( obj_player_peep ) {
         if ( selected = true ) {
             if ( target = noone ) {
-                target = instance_create(mouse_x, mouse_y, obj_goto);
-                state = 'move';
-            } else {
-                if ( instance_exists( target ) ) {
-                    if ( object_get_name(target.object_index) = 'obj_goto' ) {
-                        with ( target ) { 
-                            instance_destroy();
-                        }
+                target = path_add(); //instance_create(mouse_x, mouse_y, obj_goto);
+                if ( mp_grid_path(global.grid, target, x, y, mouse_x, mouse_y, 1) ) {
+                        state = 'move';
                     }
-                    target = instance_create(mouse_x, mouse_y, obj_goto);
-                    state = 'move'; 
+            } else {
+                if ( path_exists( target ) ) {
+                    //if ( object_get_name(target.object_index) = 'obj_goto' ) {
+                       // with ( target ) { 
+                            //instance_destroy();
+                        //}
+                        path_delete(target);   
+                    //}
+                    target = path_add(); //instance_create(mouse_x, mouse_y, obj_goto);
+                    if ( mp_grid_path(global.grid, target, x, y, mouse_x, mouse_y, 1) ) {
+                        state = 'move';
+                    }
                 }           
             }
         }

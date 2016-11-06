@@ -180,11 +180,11 @@ if ( selected == true ) {
     selectorAngle += 4;
 }
 
-if ( state == 'move' ) {
+if ( state == 'move' ) {   
     scr_peep_move();
 }
 
-if ( target = noone || state == 'idle' ) {
+if ( !path_exists( target ) || state == 'idle' ) {
     scr_peep_idle();
 }
 </string>
