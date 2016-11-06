@@ -82,7 +82,6 @@ if ( mouse_check_button(mb_middle) ) {
 
 }
 
-// View Zooming.. SUCKS... need somethign better,....
 if ( mouse_wheel_up() ) {
     if ( view_wview[0] &gt; 512 ) {
         var ratio;

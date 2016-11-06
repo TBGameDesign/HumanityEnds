@@ -410,7 +410,9 @@ draw_set_color(c_black);
 
 draw_rectangle(0,0,string_width(tempText), 0 + string_height(tempText), false);
 
-//draw_text(0,160,string(global.item));
+draw_set_color(c_white);
+
+draw_text(0,0,string(tempText));
 
 //draw_text(0,192,string(over_item));
 </string>
@@ -444,12 +446,6 @@ if ( global.select_multi == true ) {
     draw_set_alpha(0.1);
     draw_rectangle(global.start_x, global.start_y, global.end_x, global.end_y, false);
     draw_set_alpha(1);   
-}
-
-///Draw the held Item
-
-if (global.item != -1 ) {
-    draw_sprite( object_get_sprite(global.item), 0, mouse_x, mouse_y )   
 }
 
 draw_self();
