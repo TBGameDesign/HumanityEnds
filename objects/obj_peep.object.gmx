@@ -39,6 +39,7 @@ selected = false;
 superselected = false;
 selectorAngle = 0;
 
+//myPath = path_add();
 
 ///Fire Up The Brain
 alarm[0] = irandom_range( 120, 240 );
@@ -294,7 +295,7 @@ if ( instance_exists( target ) ) {
 }
 
 draw_self();
-draw_sprite_ext(spr_Claws, 0, x, y, 1, 1, image_angle, c_white, 1);
+//draw_sprite_ext(spr_Claws, 0, x, y, 1, 1, image_angle, c_white, 1);
 
 draw_text(x, y-32, string(alarm[1]));
 draw_text(x, y-48, state);

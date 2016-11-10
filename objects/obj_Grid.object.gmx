@@ -26,14 +26,18 @@
           <argument>
             <kind>1</kind>
             <string>///Create The Grid
-//global.grid = mp_grid_create(0, 0, room_width div 32, room_height div 32, 32, 32);
-//mp_grid_add_instances(global.grid, obj_peep, 0);
+global.grid = mp_grid_create(0, 0, room_width div 32, room_height div 32, 32, 32);
+mp_grid_add_instances(global.grid, obj_tree, true);
+//mp_grid_add_instances(global.grid, obj_peep, true);
+
+
+alarm[0]=60;
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="2">
+    <event eventtype="2" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -50,8 +54,12 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//mp_grid_clear_all(global.grid);
-//mp_grid_add_instances(global.grid, obj_peep, 0);
+            <string>///Update Path Data
+
+//mp_grid_clear_all(global.grid);
+//mp_grid_add_instances(global.grid, obj_peep, false);
+
+alarm[0]=60
 </string>
           </argument>
         </arguments>
@@ -76,7 +84,15 @@
             <kind>1</kind>
             <string>///DEBUG Draw Grid
 
-//mp_grid_draw(global.grid);
+
+
+mp_grid_draw(global.grid);
+
+for ( var i = 0; i &lt; room_width div 32; i++ ) {
+    for ( var j = 0; j &lt; room_width div 32; j++ ) {
+        draw_rectangle(i*32,j*32,(i*32)+32,(j*32)+32, true);
+    }
+}
 </string>
           </argument>
         </arguments>

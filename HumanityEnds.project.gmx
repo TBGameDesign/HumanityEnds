@@ -20,6 +20,7 @@
         <sprite>sprites\spr_Resource</sprite>
       </sprites>
     </sprites>
+    <sprite>sprites\spr_Tree2</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>

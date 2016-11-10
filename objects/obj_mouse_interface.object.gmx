@@ -193,20 +193,52 @@ clicked=false;
 if ( !over_gui &amp;&amp; !over_peep &amp;&amp; !over_npc ) {
     with ( obj_player_peep ) {
         if ( selected = true ) {
-            if ( target = noone and !instance_exists(target) ) {
-                target = instance_create(mouse_x, mouse_y, obj_goto);
-                state = 'move';
-            } else {
-                if ( instance_exists( target ) ) {
-                    if ( object_get_name(target.object_index) = 'obj_goto' ) {
-                        with ( target ) { 
-                            instance_destroy();
+            if ( target == noone &amp;&amp; !path_exists(target) ) {
+                target = path_add();
+                mp_grid_clear_cell(global.grid, x div 32, y div 32);
+                if ( mp_grid_path(global.grid, target, (x div 32) * 32, (y div 32) * 32, (mouse_x div 32) * 32 + 16, (mouse_y div 32) * 32 + 16, true) ) {
+                
+                    //Try to optimize Paths
+                        if ( !collision_line(path_get_x(target,0), path_get_y(target,0), path_get_x(target,1),path_get_y(target,1),obj_tree, false, true) ) {
+                            //mp_potential_step(path_get_x(target,1), path_get_y(target,1), 5, false);
+                            var tX1 = path_get_x(target,0)
+                            var tY1 = path_get_y(target,0)
+                            var tX2 = path_get_x(target,1)
+                            var tY2 = path_get_y(target,1)
+                            path_clear_points(target);
+                            path_insert_point(target,0, tX1, tY1, 100);
+                            path_insert_point(target,1, tX2, tY2, 100);
+                            path_start(target, 5, 0, true);
+                            
+                        } else {
+                            path_start(target, 5, 0, true);
+
                         }
                     }
-                    target = instance_create(mouse_x, mouse_y, obj_goto);
-                    state = 'move';
-                }           
+            
+            } else {
+            
+                path_clear_points(target);
+                if ( mp_grid_path(global.grid, target, (x div 32) * 32, (y div 32) * 32, (mouse_x div 32) * 32, (mouse_y div 32) * 32, true) ) {
+                        
+                        if ( !collision_line(path_get_x(target,0), path_get_y(target,0), path_get_x(target,1),path_get_y(target,1),obj_tree, false, true) ) {
+                            var tX1 = path_get_x(target,0)
+                            var tY1 = path_get_y(target,0)
+                            var tX2 = path_get_x(target,1)
+                            var tY2 = path_get_y(target,1)
+                            path_clear_points(target);
+                            path_insert_point(target,0, tX1, tY1, 100);
+                            path_insert_point(target,1, tX2, tY2, 100);
+                            path_start(target, 5, 0, true);
+                        
+                        } else {
+                            path_start(target, 5, 0, true);
+                            
+                        }
+                }
+            
             }
+            
         }
     }
 }
@@ -285,6 +317,23 @@ if ( over_tool ) {
         }
     }
 }
+
+
+??????????????????????????OLD???????????????????????????????????
+if ( target = noone and !instance_exists(target) ) {
+                target = instance_create(mouse_x, mouse_y, obj_goto);
+                state = 'move';
+            } else {
+                if ( instance_exists( target ) ) {
+                    if ( object_get_name(target.object_index) = 'obj_goto' ) {
+                        with ( target ) { 
+                            instance_destroy();
+                        }
+                    }
+                    target = instance_create(mouse_x, mouse_y, obj_goto);
+                    state = 'move';
+                }           
+            }
 </string>
           </argument>
         </arguments>
@@ -337,7 +386,7 @@ if ( over_peep ) {
     }
 }
 else {
-    //Left clicked on the ground, deselects everything... only works here if not holding an item.
+    //Left clicked on the ground, deselects everything... only works here if not holding shift.
     if ( !over_gui &amp;&amp; !over_peep &amp;&amp; !over_npc ) {
         if ( !keyboard_check( vk_shift ) ) {
             with ( obj_player_peep ) {
