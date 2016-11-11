@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>///scr_peep_init()
 
-target = noone;
+
 foe = -1;
 team = 0;
 
@@ -39,7 +39,7 @@ selected = false;
 superselected = false;
 selectorAngle = 0;
 
-//myPath = path_add();
+myPath = path_add();
 
 ///Fire Up The Brain
 alarm[0] = irandom_range( 120, 240 );
@@ -160,7 +160,7 @@ alarm[0] = 180;
             <string>///Set My Depth, handle drag-select, execute states
 
 //Face the direction were moving
-image_angle = direction;
+image_angle=direction;
 
 if ( global.select_multi == true &amp;&amp; team == 0 ) {
     if ( distance_to_point(global.start_x,global.start_y) &lt;= 1024 ) {
@@ -181,11 +181,11 @@ if ( selected == true ) {
     selectorAngle += 4;
 }
 
-if ( state == 'move' ) {   
-    scr_peep_move();
-}
+//if ( state == 'move' ) {   
+//    scr_peep_move();
+//}
 
-if ( !instance_exists( target ) || state == 'idle' ) {
+if ( state == 'idle' ) {
     scr_peep_idle();
 }
 </string>
@@ -211,20 +211,23 @@ if ( !instance_exists( target ) || state == 'idle' ) {
           <argument>
             <kind>1</kind>
             <string>/// Collide away
-friction=0;
-motion_add(point_direction(other.x, other.y, x, y), 0.25);
-if (speed &gt; spd) {
-    speed = spd;
-}
-
 
 //Check for overlapping
-if ( x == other.x &amp;&amp; y == other.y ) {
+if ( x == other.x ) {
     if ( id &gt; other.id ) {
         x+=2;
     } else {
         x-=2;
     }
+
+}
+if ( y == other.y ) {
+    if ( id &gt; other.id ) {
+        y+=2;
+    } else {
+        y-=2;
+    }
+
 }
 </string>
           </argument>
@@ -296,10 +299,13 @@ if ( instance_exists( target ) ) {
 
 draw_self();
 //draw_sprite_ext(spr_Claws, 0, x, y, 1, 1, image_angle, c_white, 1);
+if ( path_get_number(myPath) &gt; 0 ) {
+    draw_set_colour(c_black);
+    draw_path(myPath, x, y, true);
+}
 
 draw_text(x, y-32, string(alarm[1]));
 draw_text(x, y-48, state);
-draw_text(x, y-64, string(target));
 </string>
           </argument>
         </arguments>

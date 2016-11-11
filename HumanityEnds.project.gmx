@@ -18,11 +18,14 @@
       <sprites name="Flora">
         <sprite>sprites\spr_Tree1</sprite>
         <sprite>sprites\spr_Resource</sprite>
+        <sprite>sprites\spr_Tree2</sprite>
       </sprites>
     </sprites>
-    <sprite>sprites\spr_Tree2</sprite>
+    <sprite>sprites\spr_Follow</sprite>
   </sprites>
-  <backgrounds name="background"/>
+  <backgrounds name="background">
+    <background>background\background0</background>
+  </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\scr_peep_idle.gml</script>
@@ -40,6 +43,7 @@
       <object>objects\obj_goto</object>
       <object>objects\obj_view_controller</object>
       <object>objects\obj_mouse_interface</object>
+      <object>objects\obj_Follow</object>
       <objects name="WorldObjects">
         <object>objects\obj_tree</object>
       </objects>
