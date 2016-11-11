@@ -26,7 +26,8 @@
           <argument>
             <kind>1</kind>
             <string>///scr_peep_init()
-
+x+=16
+y+=16
 
 foe = -1;
 team = 0;
@@ -40,6 +41,7 @@ superselected = false;
 selectorAngle = 0;
 
 myPath = path_add();
+target = noone;
 
 ///Fire Up The Brain
 alarm[0] = irandom_range( 120, 240 );
@@ -132,9 +134,51 @@ if ( instance_exists( target ) ) {
             <kind>1</kind>
             <string>///Start of AI Brain Tick
 
-//No Brain yet
+//Find an enemy and try to path to him.
+if (instance_exists(obj_npc_peep)) {
+    target = instance_nearest(x, y, obj_npc_peep);
+    
+    var dist = point_distance(x,y,target.x,target.y)
+    if (dist &lt; 1024 ) {
+        
+        //True if he CANT see him...
+        var sight = collision_line(x, y, target.x, target.y, obj_tree, false, true);
+        if ( sight ) {
+        
+            if ( path_exists(myPath) ) {
+            
+                if ( mp_grid_path(global.grid, myPath, (x div 32) * 32 + 16, (y div 32) * 32 + 16, (target.x div 32) * 32 + 16, (target.y div 32) * 32 + 16, true) ) {
+                    state = 'move';
+                    path_start(myPath, 3, 0,  false);
+                    alarm[0] = 90;
+                
+                }
+            }
+            
+        } else {
 
-alarm[0] = 180;
+            if ( path_exists(myPath) ) {
+            
+                if ( mp_grid_path(global.grid, myPath, (x div 32) * 32 + 16, (y div 32) * 32 + 16, (target.x div 32) * 32 + 16, (target.y div 32) * 32 + 16, true) ) {
+                    state = 'chase';
+                    path_start(myPath, 3, 0, false);
+                    alarm[0] = 30;
+                
+                }
+            }
+        }
+              
+    } else {
+        state = 'idle';
+        alarm[0] = 180; 
+           
+    }
+     
+} else {
+    state = 'idle';
+    alarm[0] = 180;
+    
+}
 </string>
           </argument>
         </arguments>
@@ -304,7 +348,7 @@ if ( path_get_number(myPath) &gt; 0 ) {
     draw_path(myPath, x, y, true);
 }
 
-draw_text(x, y-32, string(alarm[1]));
+draw_text(x, y-32, string(alarm[0]));
 draw_text(x, y-48, state);
 </string>
           </argument>
