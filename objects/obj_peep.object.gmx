@@ -46,12 +46,15 @@ target = noone;
 ///Fire Up The Brain
 alarm[0] = irandom_range( 120, 240 );
 alarm[1] = 0
+
+mySpeed=0;
+commanded=false;
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="2" enumb="1">
+    <event eventtype="2" enumb="11">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -135,50 +138,57 @@ if ( instance_exists( target ) ) {
             <string>///Start of AI Brain Tick
 
 //Find an enemy and try to path to him.
-if (instance_exists(obj_npc_peep)) {
-    target = instance_nearest(x, y, obj_npc_peep);
+if ( commanded = false ) {
+    if (instance_exists(obj_npc_peep)) {
+        target = instance_nearest(x, y, obj_npc_peep);
+        
+        var dist = point_distance(x,y,target.x,target.y)
+        if (dist &lt; 1024 ) {
+            
+            //True if he CANT see him...
+            var sight = collision_line(x, y, target.x, target.y, obj_tree, false, true);
+            if ( sight ) {
+            
+                if ( path_exists(myPath) ) {
+                
+                    if ( mp_grid_path(global.grid, myPath, (x div 32) * 32 + 16, (y div 32) * 32 + 16, (target.x div 32) * 32 + 16, (target.y div 32) * 32 + 16, true) ) {
+                        state = 'move';
+                        path_start(myPath, mySpeed, 0,  false);
+                        alarm[0] = 90;
+                    
+                    }
+                }
+                
+            } else {
     
-    var dist = point_distance(x,y,target.x,target.y)
-    if (dist &lt; 1024 ) {
-        
-        //True if he CANT see him...
-        var sight = collision_line(x, y, target.x, target.y, obj_tree, false, true);
-        if ( sight ) {
-        
-            if ( path_exists(myPath) ) {
-            
-                if ( mp_grid_path(global.grid, myPath, (x div 32) * 32 + 16, (y div 32) * 32 + 16, (target.x div 32) * 32 + 16, (target.y div 32) * 32 + 16, true) ) {
-                    state = 'move';
-                    path_start(myPath, 3, 0,  false);
-                    alarm[0] = 90;
+                if ( path_exists(myPath) ) {
                 
+                    if ( mp_grid_path(global.grid, myPath, (x div 32) * 32 + 16, (y div 32) * 32 + 16, (target.x div 32) * 32 + 16, (target.y div 32) * 32 + 16, true) ) {
+                        state = 'move';
+                        path_start(myPath, mySpeed, 0,  false);
+                        alarm[0] = 30;
+                    
+                    }
                 }
             }
-            
+                  
         } else {
-
-            if ( path_exists(myPath) ) {
-            
-                if ( mp_grid_path(global.grid, myPath, (x div 32) * 32 + 16, (y div 32) * 32 + 16, (target.x div 32) * 32 + 16, (target.y div 32) * 32 + 16, true) ) {
-                    state = 'chase';
-                    path_start(myPath, 3, 0, false);
-                    alarm[0] = 30;
-                
-                }
-            }
+            state = 'idle';
+            alarm[0] = 180; 
+               
         }
-              
+         
     } else {
         state = 'idle';
-        alarm[0] = 180; 
-           
+        alarm[0] = 180;
+        
     }
-     
+
 } else {
-    state = 'idle';
-    alarm[0] = 180;
-    
+    alarm[0] = 90; 
+        
 }
+
 </string>
           </argument>
         </arguments>
@@ -225,12 +235,30 @@ if ( selected == true ) {
     selectorAngle += 4;
 }
 
-//if ( state == 'move' ) {   
-//    scr_peep_move();
-//}
+if ( state == 'move' ) {
+    if ( path_position != 1 ) {
+    
+        if ( path_position &lt;= 0.95 ) {     
+            mySpeed += 0.05
+            if ( mySpeed &gt; 3 ) { mySpeed = 3 }
+        } else {
+            mySpeed -= 0.1
+            if ( mySpeed &lt; 1 ) { mySpeed = 1 }
+        }
+        path_speed=mySpeed;
+    
+    } else {
+        state = 'idle';
+        commanded=false;
+    
+    }
+}
 
 if ( state == 'idle' ) {
-    scr_peep_idle();
+    mySpeed = 0;
+    if ( alarm[0] = -1 ) {
+        alarm[0]=180
+    }
 }
 </string>
           </argument>
@@ -256,23 +284,42 @@ if ( state == 'idle' ) {
             <kind>1</kind>
             <string>/// Collide away
 
-//Check for overlapping
-if ( x == other.x ) {
-    if ( id &gt; other.id ) {
-        x+=2;
-    } else {
-        x-=2;
-    }
-
+if (state == 'idle') {
+    var away = point_direction(other.x + (other.sprite_width div 2) , other.y + (other.sprite_width div 2), x + (sprite_width div 2), y + (sprite_width div 2));
+    x += lengthdir_x(0.5, away);
+    y += lengthdir_y(0.5, away);
 }
-if ( y == other.y ) {
-    if ( id &gt; other.id ) {
-        y+=2;
-    } else {
-        y-=2;
-    }
 
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="obj_tree">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Collide away
+
+if (state == 'idle') {
+    var away = point_direction(other.x + (other.sprite_width div 2) , other.y + (other.sprite_width div 2), x + (sprite_width div 2), y + (sprite_width div 2));
+    x += lengthdir_x(2, away);
+    y += lengthdir_y(2, away);
 }
+
 </string>
           </argument>
         </arguments>
@@ -314,6 +361,90 @@ if ( instance_exists( target ) ) {
         </arguments>
       </action>
     </event>
+    <event eventtype="7" enumb="10">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if ( !path_exists(myPath) ) {
+                
+    myPath = path_add();
+    if ( mp_grid_path(global.grid, myPath, (x div 32) * 32 + 16, (y div 32) * 32 + 16, (mouse_x div 32) * 32 + 16, (mouse_y div 32) * 32 + 16, true) ) {
+    
+        //Try to optimize Paths
+        if ( !collision_line(path_get_x(myPath,0), path_get_y(myPath,0), path_get_x(myPath,1),path_get_y(myPath,1),obj_tree, false, true) ) {
+            var tX1 = path_get_x(myPath,0)
+            var tY1 = path_get_y(myPath,0)
+            var tX2 = path_get_x(myPath,1)
+            var tY2 = path_get_y(myPath,1)
+            path_clear_points(myPath);
+            path_insert_point(myPath,0, tX1, tY1, 100);
+            path_insert_point(myPath,1, tX2, tY2, 100);
+            path_start(myPath, mySpeed, 0, false);
+            state = 'move';
+            
+        } else {
+            path_set_precision(myPath, 2);
+            path_set_kind(myPath, 1);
+            path_start(myPath, mySpeed, 0, false);
+            state = 'move';
+
+        }
+    }
+
+} else {
+
+    path_clear_points(myPath);
+    if ( mp_grid_path(global.grid, myPath, (x div 32) * 32 + 16, (y div 32) * 32 + 16, (mouse_x div 32) * 32 + 16, (mouse_y div 32) * 32 + 16, true) ) {
+            
+        if ( !collision_line(path_get_x(myPath,0), path_get_y(myPath,0), path_get_x(myPath,1),path_get_y(myPath,1),obj_tree, false, true) ) {
+            var tX1 = path_get_x(myPath,0)
+            var tY1 = path_get_y(myPath,0)
+            var tX2 = path_get_x(myPath,1)
+            var tY2 = path_get_y(myPath,1)
+            path_clear_points(myPath);
+            path_insert_point(myPath,0, tX1, tY1, 100);
+            path_insert_point(myPath,1, tX2, tY2, 100);
+            path_start(myPath, mySpeed, 0, false);
+            state = 'move';
+        
+        } else {
+        
+            //Try to optimize long paths
+            //for ( var p = 0; p &lt; path_get_number(myPath); p+=1 ) {
+            //    if ( !collision_line(path_get_point_x(myPath,0), path_get_point_y(myPath,0), path_get_point_x(myPath,p), path_get_point_y(myPath,p), obj_tree, false, true) ) {
+            //        path_delete_point(myPath, p);    
+            //    } else {
+            //        break;
+            //    }   
+            // 
+            //}
+            
+            path_set_precision(myPath, 2);
+            path_set_kind(myPath, 1);
+            path_start(myPath, mySpeed, 0, true);
+            state = 'move';
+                                            
+        }
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
@@ -345,11 +476,15 @@ draw_self();
 //draw_sprite_ext(spr_Claws, 0, x, y, 1, 1, image_angle, c_white, 1);
 if ( path_get_number(myPath) &gt; 0 ) {
     draw_set_colour(c_black);
+    for ( var p = 0; p &lt; path_get_number(myPath); p+=1 ) {
+        draw_circle(path_get_point_x(myPath, p), path_get_point_y(myPath, p), 4, false);   
+    }
     draw_path(myPath, x, y, true);
 }
 
 draw_text(x, y-32, string(alarm[0]));
 draw_text(x, y-48, state);
+draw_text(x, y-64, commanded);
 </string>
           </argument>
         </arguments>

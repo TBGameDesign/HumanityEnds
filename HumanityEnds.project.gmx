@@ -36,6 +36,7 @@
       <script>scripts\scr_npc_peep_idle.gml</script>
       <script>scripts\scr_npc_peep_chase.gml</script>
     </scripts>
+    <script>scripts\path_opt.gml</script>
   </scripts>
   <objects name="objects">
     <objects name="World">
