@@ -190,7 +190,7 @@ clicked=false;
             <string>///DO stuff!
 
 //Assign a move location to a peep
-if ( !over_gui &amp;&amp; !over_peep &amp;&amp; !over_npc ) {
+if ( !over_gui /*&amp;&amp; !over_peep &amp;&amp; !over_npc*/ ) {
     with ( obj_player_peep ) {
         if ( selected = true ) {
             commanded = true;

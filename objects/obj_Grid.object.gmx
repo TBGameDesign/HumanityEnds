@@ -3,7 +3,7 @@
   <spriteName>spr_Grid</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>1000</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -86,7 +86,7 @@ alarm[0]=60
 
 
 
-//mp_grid_draw(global.grid);
+mp_grid_draw(global.grid);
 
 /*
 for ( var i = 0; i &lt; room_width div 32; i++ ) {

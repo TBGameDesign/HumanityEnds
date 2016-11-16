@@ -58,13 +58,13 @@ if (instance_exists(obj_player_peep)) {
 }
 
 if ( state == 'chase' ) {
-    scr_npc_peep_chase();
+    scr_peep_chase();
 }
 if ( state == 'attack' ) {
-    scr_npc_peep_attack();
+    //scr_npc_peep_attack();
 }
 if ( state == 'idle' ) {
-    scr_npc_peep_idle();
+    //scr_npc_peep_idle();
 }
 
 if ( selected == true ) {

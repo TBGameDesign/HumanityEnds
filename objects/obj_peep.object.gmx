@@ -153,6 +153,11 @@ if ( commanded = false ) {
                 
                     if ( mp_grid_path(global.grid, myPath, (x div 32) * 32 + 16, (y div 32) * 32 + 16, (target.x div 32) * 32 + 16, (target.y div 32) * 32 + 16, true) ) {
                         state = 'move';
+                        
+                        //Check for something at the end of the path
+                        while ( collision_point( path_get_x(myPath,1), path_get_y(myPath,1), obj_peep, false, true ) ) {
+                            path_delete_point(myPath, path_get_number(myPath) - 1 );  
+                        }
                         path_start(myPath, mySpeed, 0,  false);
                         alarm[0] = 90;
                     
@@ -164,6 +169,10 @@ if ( commanded = false ) {
                 if ( path_exists(myPath) ) {
                 
                     if ( mp_grid_path(global.grid, myPath, (x div 32) * 32 + 16, (y div 32) * 32 + 16, (target.x div 32) * 32 + 16, (target.y div 32) * 32 + 16, true) ) {
+                        //Check for something at the end of the path
+                        while ( collision_point( path_get_x(myPath,1), path_get_y(myPath,1), obj_peep, false, true ) ) {
+                            path_delete_point(myPath, path_get_number(myPath) - 1 );  
+                        }                       
                         state = 'move';
                         path_start(myPath, mySpeed, 0,  false);
                         alarm[0] = 30;
@@ -421,17 +430,13 @@ if ( instance_exists( target ) ) {
             state = 'move';
         
         } else {
-        
-            //Try to optimize long paths
-            //for ( var p = 0; p &lt; path_get_number(myPath); p+=1 ) {
-            //    if ( !collision_line(path_get_point_x(myPath,0), path_get_point_y(myPath,0), path_get_point_x(myPath,p), path_get_point_y(myPath,p), obj_tree, false, true) ) {
-            //        path_delete_point(myPath, p);    
-            //    } else {
-            //        break;
-            //    }   
-            // 
-            //}
             
+            //Check for something at the end of the path
+            while ( collision_point( path_get_x(myPath,1), path_get_y(myPath,1), obj_peep, false, true ) ) {
+                path_delete_point(myPath, path_get_number(myPath) - 1 );  
+            }
+            mp_grid_clear_cell( global.grid, ( path_get_x(myPath,0) div 32 ), ( path_get_y(myPath,0) div 32 ) );
+            mp_grid_add_cell( global.grid, ( path_get_x(myPath,1) div 32 ), ( path_get_y(myPath,1) div 32 ) );             
             path_set_precision(myPath, 2);
             path_set_kind(myPath, 1);
             path_start(myPath, mySpeed, 0, true);

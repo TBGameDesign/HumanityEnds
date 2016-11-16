@@ -26,17 +26,14 @@
   <backgrounds name="background">
     <background>background\background0</background>
   </backgrounds>
-  <paths name="paths"/>
+  <paths name="paths">
+    <path>paths\path0</path>
+  </paths>
   <scripts name="scripts">
-    <script>scripts\scr_peep_idle.gml</script>
     <script>scripts\scr_peep_move.gml</script>
     <script>scripts\scr_peep_chase.gml</script>
-    <scripts name="NPC_Scripts">
-      <script>scripts\scr_npc_peep_attack.gml</script>
-      <script>scripts\scr_npc_peep_idle.gml</script>
-      <script>scripts\scr_npc_peep_chase.gml</script>
-    </scripts>
     <script>scripts\path_opt.gml</script>
+    <script>scripts\funcPathOptimized.gml</script>
   </scripts>
   <objects name="objects">
     <objects name="World">
