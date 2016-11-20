@@ -294,7 +294,7 @@ if ( state == 'idle' ) {
             <string>/// Collide away
 
 if (state == 'idle') {
-    var away = point_direction(other.x + (other.sprite_width div 2) , other.y + (other.sprite_width div 2), x + (sprite_width div 2), y + (sprite_width div 2));
+    var away = point_direction(other.x + (other.sprite_width div 2), other.y + (other.sprite_width div 2), x + (sprite_width div 2), y + (sprite_width div 2));
     x += lengthdir_x(0.5, away);
     y += lengthdir_y(0.5, away);
 }
@@ -324,7 +324,7 @@ if (state == 'idle') {
             <string>/// Collide away
 
 if (state == 'idle') {
-    var away = point_direction(other.x + (other.sprite_width div 2) , other.y + (other.sprite_width div 2), x + (sprite_width div 2), y + (sprite_width div 2));
+    var away = point_direction(other.x + (other.sprite_width div 2), other.y + (other.sprite_width div 2), x + (sprite_width div 2), y + (sprite_width div 2));
     x += lengthdir_x(2, away);
     y += lengthdir_y(2, away);
 }
@@ -478,7 +478,7 @@ if ( instance_exists( target ) ) {
 }
 
 draw_self();
-//draw_sprite_ext(spr_Claws, 0, x, y, 1, 1, image_angle, c_white, 1);
+draw_sprite_ext(spr_Claws, 0, x, y, 1, 1, image_angle, c_white, 1);
 if ( path_get_number(myPath) &gt; 0 ) {
     draw_set_colour(c_black);
     for ( var p = 0; p &lt; path_get_number(myPath); p+=1 ) {

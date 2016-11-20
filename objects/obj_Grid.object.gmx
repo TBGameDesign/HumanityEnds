@@ -86,7 +86,7 @@ alarm[0]=60
 
 
 
-mp_grid_draw(global.grid);
+//mp_grid_draw(global.grid);
 
 /*
 for ( var i = 0; i &lt; room_width div 32; i++ ) {
