@@ -418,7 +418,7 @@ if ( instance_exists( target ) ) {
     path_clear_points(myPath);
     if ( mp_grid_path(global.grid, myPath, (x div 32) * 32 + 16, (y div 32) * 32 + 16, (mouse_x div 32) * 32 + 16, (mouse_y div 32) * 32 + 16, true) ) {
             
-        if ( !collision_line(path_get_x(myPath,0), path_get_y(myPath,0), path_get_x(myPath,1),path_get_y(myPath,1),obj_tree, false, true) ) {
+        if ( !collision_line(path_get_x(myPath,0), path_get_y(myPath,0), path_get_x(myPath,1),path_get_y(myPath,1), obj_tree, false, true) ) {
             var tX1 = path_get_x(myPath,0)
             var tY1 = path_get_y(myPath,0)
             var tX2 = path_get_x(myPath,1)

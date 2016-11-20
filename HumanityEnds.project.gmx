@@ -26,9 +26,7 @@
   <backgrounds name="background">
     <background>background\background0</background>
   </backgrounds>
-  <paths name="paths">
-    <path>paths\path0</path>
-  </paths>
+  <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\scr_peep_move.gml</script>
     <script>scripts\scr_peep_chase.gml</script>
